@@ -6,7 +6,7 @@ namespace ControleTarefas.Controllers
     [Route("api/[controller]")]
     public class ControleTarefaController : ControllerBase
     {
-        private static List<string> TitulosTarefas { get; set; } = new() { "Instalação", "Configuração", "Criar Projeto", "Exercício Prático" };
+        private static List<string> Tarefas { get; set; } = new() { "Instalação", "Configuração", "Criar Projeto", "Exercício Prático" };
 
         private readonly ILogger<ControleTarefaController> _logger;
 
@@ -15,34 +15,54 @@ namespace ControleTarefas.Controllers
             _logger = logger;
         }
 
-        [HttpGet]
-        public ActionResult<List<string>> Get()
+        [HttpGet("ObterTarefas")]
+        public ActionResult<List<string>> ObterTarefas()
         {
-            return TitulosTarefas;
+            return Tarefas;
         }
 
-        [HttpPost]
-        public ActionResult<List<string>> Post(string novaTarefa)
+        [HttpPost("AdicionarTarefa")]
+        public ActionResult<List<string>> AdicionarTarefa(string novaTarefa)
         {
-            TitulosTarefas.Add(novaTarefa);
-            return TitulosTarefas;
+            if (Tarefas.Contains(novaTarefa))
+            {
+                _logger.LogInformation("A tarefa '{NovaTarefa}' já existe na base.", novaTarefa);
+                throw new BusinessException($"A tarefa '{novaTarefa}' já existe na base.");
+            }
+
+            _logger.LogInformation("A tarefa '{NovaTarefa}' foi inserida.", novaTarefa);
+            Tarefas.Add(novaTarefa);
+
+            return Tarefas;
         }
 
-        [HttpDelete]
-        public ActionResult<List<string>> Delete(string novaTarefa)
+        [HttpDelete("DeletarTarefa")]
+        public ActionResult<List<string>> DeletarTarefa(string nomeTarefa)
         {
-            TitulosTarefas.Remove(novaTarefa);
-            return TitulosTarefas;
+            var indexTarefaExistente = Tarefas.FindIndex(tarefa => tarefa == nomeTarefa);
+
+            if (indexTarefaExistente != -1)
+            {
+                Tarefas.Remove(nomeTarefa);
+                _logger.LogInformation("A tarefa '{NomeTarefa}' foi removida.", nomeTarefa);
+            }
+            else
+                throw new BusinessException($"A tarefa '{nomeTarefa}' não existe na base.");
+
+            return Tarefas;
         }
 
-        [HttpPut]
-        public ActionResult<List<string>> Put(string nomeTarefa, string novoNomeTarefa)
+        [HttpPut("AlterarTarefa")]
+        public ActionResult<List<string>> AlterarTarefa(string nomeTarefa, string novoNomeTarefa)
         {
-            var indexTarefaExistente = TitulosTarefas.FindIndex(tarefa => tarefa == nomeTarefa);
+            var indexTarefaExistente = Tarefas.FindIndex(tarefa => tarefa == nomeTarefa);
 
-            TitulosTarefas[indexTarefaExistente] = novoNomeTarefa;
+            if (indexTarefaExistente != -1)
+                Tarefas[indexTarefaExistente] = novoNomeTarefa;
+            else
+                throw new BusinessException($"A tarefa '{nomeTarefa}' não existe na base.");
 
-            return TitulosTarefas;
+            return Tarefas;
         }
     }
 }
