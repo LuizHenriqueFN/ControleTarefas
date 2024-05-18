@@ -1,4 +1,8 @@
-﻿using Microsoft.OpenApi.Any;
+﻿using ControleTarefas.Negocio.Interface.INegocios;
+using ControleTarefas.Negocio.Negocios;
+using ControleTarefas.Repositorio.Interface.IRepositorios;
+using ControleTarefas.Repositorio.Repositorios;
+using Microsoft.OpenApi.Any;
 using Microsoft.OpenApi.Models;
 
 namespace ControleTarefas.WebApi
@@ -13,6 +17,9 @@ namespace ControleTarefas.WebApi
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+
+            services.AddScoped<ITarefaRepositorio, TarefaRepositorio>();
+            services.AddScoped<ITarefaNegocio, TarefaNegocio>();
 
             services.AddSwaggerGen(c =>
             {

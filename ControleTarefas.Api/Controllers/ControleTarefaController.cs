@@ -1,3 +1,5 @@
+using ControleTarefas.Entidade.DTO;
+using ControleTarefas.Negocio.Interface.INegocios;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ControleTarefas.Controllers
@@ -7,62 +9,43 @@ namespace ControleTarefas.Controllers
     public class ControleTarefaController : ControllerBase
     {
         private static List<string> Tarefas { get; set; } = new() { "Instalação", "Configuração", "Criar Projeto", "Exercício Prático" };
-
         private readonly ILogger<ControleTarefaController> _logger;
+        private readonly ITarefaNegocio _tarefaNegocio;
 
-        public ControleTarefaController(ILogger<ControleTarefaController> logger)
+        public ControleTarefaController(ILogger<ControleTarefaController> logger, ITarefaNegocio tarefaNegocio)
         {
             _logger = logger;
+            _tarefaNegocio = tarefaNegocio;
         }
 
         [HttpGet("ObterTarefas")]
-        public ActionResult<List<string>> ObterTarefas()
+        public ActionResult<List<TarefaDTO>> ObterTarefas()
         {
-            return Tarefas;
+            return _tarefaNegocio.ObterTarefas(null);
+        }
+
+        [HttpGet("FiltrarTarefas")]
+        public ActionResult<List<TarefaDTO>> FiltrarTarefas(string tarefas)
+        {
+            return _tarefaNegocio.ObterTarefas(new List<string>() { tarefas });
         }
 
         [HttpPost("AdicionarTarefa")]
-        public ActionResult<List<string>> AdicionarTarefa(string novaTarefa)
+        public ActionResult<List<TarefaDTO>> AdicionarTarefa(string novaTarefa)
         {
-            if (Tarefas.Contains(novaTarefa))
-            {
-                _logger.LogInformation("A tarefa '{NovaTarefa}' já existe na base.", novaTarefa);
-                throw new BusinessException($"A tarefa '{novaTarefa}' já existe na base.");
-            }
-
-            _logger.LogInformation("A tarefa '{NovaTarefa}' foi inserida.", novaTarefa);
-            Tarefas.Add(novaTarefa);
-
-            return Tarefas;
+            return _tarefaNegocio.AdicionarTarefa(novaTarefa);
         }
 
         [HttpDelete("DeletarTarefa")]
-        public ActionResult<List<string>> DeletarTarefa(string nomeTarefa)
+        public ActionResult<List<TarefaDTO>> DeletarTarefa(string nomeTarefa)
         {
-            var indexTarefaExistente = Tarefas.FindIndex(tarefa => tarefa == nomeTarefa);
-
-            if (indexTarefaExistente != -1)
-            {
-                Tarefas.Remove(nomeTarefa);
-                _logger.LogInformation("A tarefa '{NomeTarefa}' foi removida.", nomeTarefa);
-            }
-            else
-                throw new BusinessException($"A tarefa '{nomeTarefa}' não existe na base.");
-
-            return Tarefas;
+            return _tarefaNegocio.DeletarTarefa(nomeTarefa);
         }
 
         [HttpPut("AlterarTarefa")]
-        public ActionResult<List<string>> AlterarTarefa(string nomeTarefa, string novoNomeTarefa)
+        public ActionResult<List<TarefaDTO>> AlterarTarefa(string nomeTarefa, string novoNomeTarefa)
         {
-            var indexTarefaExistente = Tarefas.FindIndex(tarefa => tarefa == nomeTarefa);
-
-            if (indexTarefaExistente != -1)
-                Tarefas[indexTarefaExistente] = novoNomeTarefa;
-            else
-                throw new BusinessException($"A tarefa '{nomeTarefa}' não existe na base.");
-
-            return Tarefas;
+            return _tarefaNegocio.AlterarTarefa(nomeTarefa, novoNomeTarefa);
         }
     }
 }

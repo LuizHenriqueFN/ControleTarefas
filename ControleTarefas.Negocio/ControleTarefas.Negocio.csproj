@@ -1,20 +1,20 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
-    <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
+    <Folder Include="Negocios\" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\ControleTarefas.Entidade\ControleTarefas.Entidade.csproj" />
     <ProjectReference Include="..\ControleTarefas.Negocio.Interface\ControleTarefas.Negocio.Interface.csproj" />
-    <ProjectReference Include="..\ControleTarefas.Negocio\ControleTarefas.Negocio.csproj" />
     <ProjectReference Include="..\ControleTarefas.Repositorio.Interface\ControleTarefas.Repositorio.Interface.csproj" />
-    <ProjectReference Include="..\ControleTarefas.Repositorio\ControleTarefas.Repositorio.csproj" />
+    <ProjectReference Include="..\ControleTarefas.Utilitarios\ControleTarefas.Utilitarios.csproj" />
   </ItemGroup>
 
 </Project>
