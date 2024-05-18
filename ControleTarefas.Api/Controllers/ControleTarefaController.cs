@@ -8,13 +8,10 @@ namespace ControleTarefas.Controllers
     [Route("api/[controller]")]
     public class ControleTarefaController : ControllerBase
     {
-        private static List<string> Tarefas { get; set; } = new() { "Instalação", "Configuração", "Criar Projeto", "Exercício Prático" };
-        private readonly ILogger<ControleTarefaController> _logger;
         private readonly ITarefaNegocio _tarefaNegocio;
 
         public ControleTarefaController(ILogger<ControleTarefaController> logger, ITarefaNegocio tarefaNegocio)
         {
-            _logger = logger;
             _tarefaNegocio = tarefaNegocio;
         }
 

@@ -2,6 +2,7 @@
 using ControleTarefas.Negocio.Negocios;
 using ControleTarefas.Repositorio.Interface.IRepositorios;
 using ControleTarefas.Repositorio.Repositorios;
+using ControleTarefas.WebApi.Middleware;
 using Microsoft.OpenApi.Any;
 using Microsoft.OpenApi.Models;
 
@@ -51,6 +52,8 @@ namespace ControleTarefas.WebApi
             });
 
             app.UseRouting();
+
+            app.UseMiddleware<ApiMiddleware>();
 
             app.UseEndpoints(endpoints =>
             {
