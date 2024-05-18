@@ -7,7 +7,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
+    <PackageReference Include="log4net" Version="2.0.17" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.1" />
   </ItemGroup>
 
   <ItemGroup>
@@ -15,6 +17,10 @@
     <ProjectReference Include="..\ControleTarefas.Negocio\ControleTarefas.Negocio.csproj" />
     <ProjectReference Include="..\ControleTarefas.Repositorio.Interface\ControleTarefas.Repositorio.Interface.csproj" />
     <ProjectReference Include="..\ControleTarefas.Repositorio\ControleTarefas.Repositorio.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Middleware\" />
   </ItemGroup>
 
 </Project>
