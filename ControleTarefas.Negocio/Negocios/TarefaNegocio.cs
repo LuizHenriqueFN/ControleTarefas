@@ -1,9 +1,11 @@
 ﻿
 using ControleTarefas.Entidade.DTO;
 using ControleTarefas.Entidade.Entidades;
+using ControleTarefas.Entidade.Model;
 using ControleTarefas.Negocio.Interface.INegocios;
 using ControleTarefas.Repositorio.Interface.IRepositorios;
 using ControleTarefas.Utilitarios.Excepetions;
+using ControleTarefas.Utilitarios.Messages;
 
 namespace ControleTarefas.Negocio.Negocios
 {
@@ -28,14 +30,14 @@ namespace ControleTarefas.Negocio.Negocios
             }
         }
 
-        public List<TarefaDTO> AdicionarTarefa(string novaTarefa)
+        public List<TarefaDTO> AdicionarTarefa(CadastroTarefaModel novaTarefa)
         {
-            var tarefa = _tarefaRepositorio.ObterTarefaPorTitulo(novaTarefa);
+            var tarefa = _tarefaRepositorio.ObterTarefaPorTitulo(novaTarefa.Titulo);
 
             if (tarefa != null)
-                throw new BusinessException($"A tarefa '{novaTarefa}' já existe na base.");
+                throw new BusinessException(string.Format(BusinessMessages.RegistroExistente, "Título"));
 
-            tarefa = new Tarefa(novaTarefa);
+            tarefa = new Tarefa(novaTarefa.Titulo);
 
             _tarefaRepositorio.AdicionarTarefa(tarefa);
 

@@ -1,4 +1,5 @@
 using ControleTarefas.Entidade.DTO;
+using ControleTarefas.Entidade.Model;
 using ControleTarefas.Negocio.Interface.INegocios;
 using Microsoft.AspNetCore.Mvc;
 
@@ -28,7 +29,7 @@ namespace ControleTarefas.Controllers
         }
 
         [HttpPost("AdicionarTarefa")]
-        public ActionResult<List<TarefaDTO>> AdicionarTarefa(string novaTarefa)
+        public ActionResult<List<TarefaDTO>> AdicionarTarefa(CadastroTarefaModel novaTarefa)
         {
             return _tarefaNegocio.AdicionarTarefa(novaTarefa);
         }

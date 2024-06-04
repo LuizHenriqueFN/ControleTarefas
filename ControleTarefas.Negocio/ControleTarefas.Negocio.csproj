@@ -7,14 +7,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Negocios\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\ControleTarefas.Entidade\ControleTarefas.Entidade.csproj" />
     <ProjectReference Include="..\ControleTarefas.Negocio.Interface\ControleTarefas.Negocio.Interface.csproj" />
     <ProjectReference Include="..\ControleTarefas.Repositorio.Interface\ControleTarefas.Repositorio.Interface.csproj" />
     <ProjectReference Include="..\ControleTarefas.Utilitarios\ControleTarefas.Utilitarios.csproj" />
+    <ProjectReference Include="..\ControleTarefas.Validador\ControleTarefas.Validador.csproj" />
   </ItemGroup>
 
 </Project>

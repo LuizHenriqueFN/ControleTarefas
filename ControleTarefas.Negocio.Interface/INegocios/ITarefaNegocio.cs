@@ -1,4 +1,5 @@
 ﻿using ControleTarefas.Entidade.DTO;
+using ControleTarefas.Entidade.Model;
 
 namespace ControleTarefas.Negocio.Interface.INegocios
 {
@@ -6,7 +7,7 @@ namespace ControleTarefas.Negocio.Interface.INegocios
     {
         List<TarefaDTO> ObterTarefas(List<string>? tarefas);
         
-        List<TarefaDTO> AdicionarTarefa(string novaTarefa);
+        List<TarefaDTO> AdicionarTarefa(CadastroTarefaModel novaTarefa);
 
         List<TarefaDTO> AlterarTarefa(string nomeTarefa, string novoNomeTarefa);
        

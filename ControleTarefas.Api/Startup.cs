@@ -2,6 +2,7 @@
 using ControleTarefas.Negocio.Negocios;
 using ControleTarefas.Repositorio.Interface.IRepositorios;
 using ControleTarefas.Repositorio.Repositorios;
+using ControleTarefas.WebApi.Configuration;
 using ControleTarefas.WebApi.Middleware;
 using Microsoft.OpenApi.Any;
 using Microsoft.OpenApi.Models;
@@ -19,8 +20,10 @@ namespace ControleTarefas.WebApi
         {
             services.AddControllers();
 
-            services.AddScoped<ITarefaRepositorio, TarefaRepositorio>();
-            services.AddScoped<ITarefaNegocio, TarefaNegocio>();
+            services.AddDependencyInjectionConfiguration();
+            services.AddFluentConfiguration();
+
+            services.AddTransient<ApiMiddleware>();
 
             services.AddSwaggerGen(c =>
             {

@@ -7,10 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="IRepositorios\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\ControleTarefas.Entidade\ControleTarefas.Entidade.csproj" />
   </ItemGroup>
 
