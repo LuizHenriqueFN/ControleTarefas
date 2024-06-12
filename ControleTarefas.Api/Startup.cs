@@ -1,8 +1,4 @@
-﻿using ControleTarefas.Negocio.Interface.INegocios;
-using ControleTarefas.Negocio.Negocios;
-using ControleTarefas.Repositorio.Interface.IRepositorios;
-using ControleTarefas.Repositorio.Repositorios;
-using ControleTarefas.WebApi.Configuration;
+﻿using ControleTarefas.WebApi.Configuration;
 using ControleTarefas.WebApi.Middleware;
 using Microsoft.OpenApi.Any;
 using Microsoft.OpenApi.Models;
@@ -11,9 +7,11 @@ namespace ControleTarefas.WebApi
 {
     public class Startup
     {
-        public Startup()
+        public IConfiguration Configuracao { get; }
+        public Startup(IConfiguration configuracao)
         {
 
+            Configuracao = configuracao;
         }
 
         public void ConfigureServices(IServiceCollection services)
@@ -21,6 +19,7 @@ namespace ControleTarefas.WebApi
             services.AddControllers();
 
             services.AddDependencyInjectionConfiguration();
+            services.AddDatabaseConfiguration(Configuracao);
             services.AddFluentConfiguration();
 
             services.AddTransient<ApiMiddleware>();

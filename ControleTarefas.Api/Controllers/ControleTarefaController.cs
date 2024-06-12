@@ -17,33 +17,33 @@ namespace ControleTarefas.Controllers
         }
 
         [HttpGet("ObterTarefas")]
-        public ActionResult<List<TarefaDTO>> ObterTarefas()
+        public async Task<List<TarefaDTO>> ObterTarefas()
         {
-            return _tarefaNegocio.ObterTarefas(null);
+            return await _tarefaNegocio.ListarTarefas(null);
         }
 
         [HttpGet("FiltrarTarefas")]
-        public ActionResult<List<TarefaDTO>> FiltrarTarefas(string tarefas)
+        public async Task<List<TarefaDTO>> FiltrarTarefas(string tarefas)
         {
-            return _tarefaNegocio.ObterTarefas(new List<string>() { tarefas });
+            return await _tarefaNegocio.ListarTarefas(new List<string>() { tarefas });
         }
 
         [HttpPost("AdicionarTarefa")]
-        public ActionResult<List<TarefaDTO>> AdicionarTarefa(CadastroTarefaModel novaTarefa)
+        public async Task<List<TarefaDTO>> AdicionarTarefa(CadastroTarefaModel novaTarefa)
         {
-            return _tarefaNegocio.AdicionarTarefa(novaTarefa);
+            return await _tarefaNegocio.InserirTarefa(novaTarefa);
         }
 
         [HttpDelete("DeletarTarefa")]
-        public ActionResult<List<TarefaDTO>> DeletarTarefa(string nomeTarefa)
+        public async Task<List<TarefaDTO>> DeletarTarefa(string nomeTarefa)
         {
-            return _tarefaNegocio.DeletarTarefa(nomeTarefa);
+            return await _tarefaNegocio.DeletarTarefa(nomeTarefa);
         }
 
         [HttpPut("AlterarTarefa")]
-        public ActionResult<List<TarefaDTO>> AlterarTarefa(string nomeTarefa, string novoNomeTarefa)
+        public async Task<List<TarefaDTO>> AlterarTarefa(string nomeTarefa, string novoNomeTarefa)
         {
-            return _tarefaNegocio.AlterarTarefa(nomeTarefa, novoNomeTarefa);
+            return await _tarefaNegocio.AlterarTarefa(nomeTarefa, novoNomeTarefa);
         }
     }
 }

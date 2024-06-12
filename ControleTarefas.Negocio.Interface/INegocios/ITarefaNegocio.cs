@@ -5,12 +5,9 @@ namespace ControleTarefas.Negocio.Interface.INegocios
 {
     public interface ITarefaNegocio
     {
-        List<TarefaDTO> ObterTarefas(List<string>? tarefas);
-        
-        List<TarefaDTO> AdicionarTarefa(CadastroTarefaModel novaTarefa);
-
-        List<TarefaDTO> AlterarTarefa(string nomeTarefa, string novoNomeTarefa);
-       
-        List<TarefaDTO> DeletarTarefa(string nomeTarefa);
+        Task<List<TarefaDTO>> AlterarTarefa(string nomeTarefa, string novoNomeTarefa);
+        Task<List<TarefaDTO>> DeletarTarefa(string nomeTarefa);
+        Task<List<TarefaDTO>> InserirTarefa(CadastroTarefaModel novaTarefa);
+        Task<List<TarefaDTO>> ListarTarefas(List<string> tarefas);
     }
 }

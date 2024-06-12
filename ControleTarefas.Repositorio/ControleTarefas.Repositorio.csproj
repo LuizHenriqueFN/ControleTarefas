@@ -11,4 +11,15 @@
     <ProjectReference Include="..\ControleTarefas.Repositorio.Interface\ControleTarefas.Repositorio.Interface.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Map\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Data.SqlClient" Version="5.2.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.30" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="6.0.30" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.30" />
+  </ItemGroup>
+
 </Project>

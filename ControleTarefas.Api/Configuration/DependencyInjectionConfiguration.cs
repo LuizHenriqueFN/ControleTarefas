@@ -1,5 +1,7 @@
 ﻿using ControleTarefas.Negocio.Interface.INegocios;
 using ControleTarefas.Negocio.Negocios;
+using ControleTarefas.Repositorio.Interface;
+using ControleTarefas.Repositorio;
 using ControleTarefas.Repositorio.Interface.IRepositorios;
 using ControleTarefas.Repositorio.Repositorios;
 
@@ -12,6 +14,7 @@ namespace ControleTarefas.WebApi.Configuration
         {
             InjetarRepositorio(services);
             InjetarNegocio(services);
+            services.AddScoped<IGerenciadorTransacao, GerenciadorTransacao>();
         }
 
         private static void InjetarNegocio(IServiceCollection services)

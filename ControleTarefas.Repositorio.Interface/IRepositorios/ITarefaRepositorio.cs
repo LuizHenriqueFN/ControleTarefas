@@ -3,16 +3,10 @@ using ControleTarefas.Entidade.Entidades;
 
 namespace ControleTarefas.Repositorio.Interface.IRepositorios
 {
-    public interface ITarefaRepositorio
+    public interface ITarefaRepositorio: IRepositorioBase<Tarefa>
     {
-        List<TarefaDTO> ObterTarefas(List<string> tarefas);
-
-        List<TarefaDTO> ObterTodasTarefas();
-
-        void DeletarTarefa(Tarefa tarefa);
-
-        void AdicionarTarefa(Tarefa tarefa);
-
-        Tarefa? ObterTarefaPorTitulo(string tituloTarefa);
+        Task<List<TarefaDTO>> ListarTarefas(List<string> tarefas);
+        Task<List<TarefaDTO>> ListarTodas();
+        Task<Tarefa> ObterTarefa(string tituloTarefa, bool asNoTracking = false);
     }
 }

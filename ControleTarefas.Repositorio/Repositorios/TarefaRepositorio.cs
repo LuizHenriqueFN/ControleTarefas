@@ -2,49 +2,47 @@
 using ControleTarefas.Entidade.DTO;
 using ControleTarefas.Entidade.Entidades;
 using ControleTarefas.Repositorio.Interface.IRepositorios;
+using Microsoft.EntityFrameworkCore;
 
 namespace ControleTarefas.Repositorio.Repositorios
 {
-    public class TarefaRepositorio : ITarefaRepositorio
+    public class TarefaRepositorio : RepositorioBase<Tarefa>, ITarefaRepositorio
     {
-        private static List<Tarefa> Tarefas { get; set; } = new() { new("Instalação"), new("Configuração"), new("Criar Projeto"), new("Exercício Prático") };
+        public TarefaRepositorio(Contexto contexto) : base(contexto) { }
 
-        public List<TarefaDTO> ObterTarefas(List<string> tarefas)
+        public Task<List<TarefaDTO>> ListarTarefas(List<string> tarefas)
         {
-            return Tarefas.Where(tarefa => tarefas.Contains(tarefa.Titulo.ToUpper()))
-                          .OrderBy(tarefa => tarefa.Titulo)
-                          .Distinct()
-                          .Select(tarefa => new TarefaDTO
-                          {
-                              Titulo = tarefa.Titulo
-                          })
-                          .ToList();
+            var query = EntitySet.Where(tarefa => tarefas.Contains(tarefa.Titulo.ToUpper()))
+                                 .Select(tarefa => new TarefaDTO
+                                 {
+                                     Titulo = tarefa.Titulo
+                                 })
+                                 .OrderBy(tarefa => tarefa.Titulo)
+                                 .Distinct();
+
+            return query.ToListAsync();
         }
 
-        public List<TarefaDTO> ObterTodasTarefas()
+        public Task<List<TarefaDTO>> ListarTodas()
         {
-            return Tarefas.OrderBy(tarefa => tarefa.Titulo)
-                          .Distinct()
-                          .Select(tarefa => new TarefaDTO
-                          {
-                              Titulo = tarefa.Titulo
-                          })
-                          .ToList();
+            var query = EntitySet.Select(tarefa => new TarefaDTO
+            {
+                Titulo = tarefa.Titulo
+            })
+                                 .OrderBy(e => e.Titulo)
+                                 .Distinct();
+
+            return query.ToListAsync();
         }
 
-        public void DeletarTarefa(Tarefa tarefa)
+        public Task<Tarefa?> ObterTarefa(string tituloTarefa, bool asNoTracking = false)
         {
-            Tarefas.Remove(tarefa);
-        }
+            var query = EntitySet.AsQueryable();
 
-        public void AdicionarTarefa(Tarefa tarefa)
-        {
-            Tarefas.Add(tarefa);
-        }
+            if (asNoTracking)
+                query = query.AsNoTracking();
 
-        public Tarefa? ObterTarefaPorTitulo(string tituloTarefa)
-        {
-            return Tarefas.Find(e => e.Titulo.ToLower() == tituloTarefa.ToLower());
+            return query.FirstOrDefaultAsync(e => e.Titulo.ToLower() == tituloTarefa.ToLower());
         }
     }
 }
