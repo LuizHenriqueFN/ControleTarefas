@@ -6,74 +6,86 @@ using ControleTarefas.Negocio.Interface.INegocios;
 using ControleTarefas.Repositorio.Interface.IRepositorios;
 using ControleTarefas.Utilitarios.Excepetions;
 using ControleTarefas.Utilitarios.Messages;
+using log4net;
 
 namespace ControleTarefas.Negocio.Negocios
 {
     public class TarefaNegocio : ITarefaNegocio
     {
         private readonly ITarefaRepositorio _tarefaRepositorio;
+        private static readonly ILog _log = LogManager.GetLogger(typeof(TarefaNegocio));
+
         public TarefaNegocio(ITarefaRepositorio tarefaRepositorio)
         {
             _tarefaRepositorio = tarefaRepositorio;
         }
 
-        public List<TarefaDTO> ObterTarefas(List<string>? tarefas)
+        public Task<List<TarefaDTO>> ListarTarefas(List<string> tarefas)
         {
             if (tarefas == null)
             {
-                return _tarefaRepositorio.ObterTodasTarefas();
+                return _tarefaRepositorio.ListarTodas();
             }
             else
             {
-                tarefas = tarefas.Select(e => e.ToUpper()).ToList();
-                return _tarefaRepositorio.ObterTarefas(tarefas);
+                tarefas = tarefas.Select(e => e.ToUpper())
+                                 .ToList();
+
+                return _tarefaRepositorio.ListarTarefas(tarefas);
             }
         }
 
-        public List<TarefaDTO> AdicionarTarefa(CadastroTarefaModel novaTarefa)
+        public async Task<List<TarefaDTO>> InserirTarefa(CadastroTarefaModel novaTarefa)
         {
-            var tarefa = _tarefaRepositorio.ObterTarefaPorTitulo(novaTarefa.Titulo);
+            var tarefa = await _tarefaRepositorio.ObterTarefa(novaTarefa.Titulo);
 
             if (tarefa != null)
                 throw new BusinessException(string.Format(BusinessMessages.RegistroExistente, "Título"));
 
             tarefa = new Tarefa(novaTarefa.Titulo);
 
-            _tarefaRepositorio.AdicionarTarefa(tarefa);
+            await _tarefaRepositorio.Inserir(tarefa);
 
-            return _tarefaRepositorio.ObterTodasTarefas();
+            _log.InfoFormat("A tarefa '{0}' foi inserida.", novaTarefa);
+            throw new Exception("erro genérico");
+            return await _tarefaRepositorio.ListarTodas();
         }
 
-        public List<TarefaDTO> AlterarTarefa(string nomeTarefa, string novoNomeTarefa)
+        public async Task<List<TarefaDTO>> AlterarTarefa(string nomeTarefa, string novoNomeTarefa)
         {
-            var tarefa = _tarefaRepositorio.ObterTarefaPorTitulo(nomeTarefa);
+            var tarefa = await _tarefaRepositorio.ObterTarefa(nomeTarefa);
 
             if (tarefa != null)
             {
                 tarefa.Titulo = novoNomeTarefa;
+                await _tarefaRepositorio.Atualizar(tarefa);
+                _log.InfoFormat("A tarefa '{0}' foi atualizada para o nome {1}.", nomeTarefa, novoNomeTarefa);
             }
             else
             {
+                _log.InfoFormat("A tarefa '{0}' não existe na base.", nomeTarefa);
                 throw new BusinessException($"A tarefa '{nomeTarefa}' não existe na base.");
             }
 
-            return _tarefaRepositorio.ObterTodasTarefas();
+            return await _tarefaRepositorio.ListarTodas();
         }
-        
-        public List<TarefaDTO> DeletarTarefa(string nomeTarefa)
+
+        public async Task<List<TarefaDTO>> DeletarTarefa(string nomeTarefa)
         {
-            var tarefa = _tarefaRepositorio.ObterTarefaPorTitulo(nomeTarefa);
+            var tarefa = await _tarefaRepositorio.ObterTarefa(nomeTarefa);
 
             if (tarefa != null)
             {
-                _tarefaRepositorio.DeletarTarefa(tarefa);
+                await _tarefaRepositorio.Deletar(tarefa);
+                _log.InfoFormat("A tarefa '{0}' foi removida.", nomeTarefa);
             }
             else
             {
-                throw new BusinessException($"A tarefa '{nomeTarefa}' não existe na base.");
+                _log.InfoFormat("A tarefa '{0}' não existe na base.", nomeTarefa);
+                throw new BusinessException(string.Format(BusinessMessages.RegistroNaoEncontrado, nomeTarefa));
             }
 
-            return _tarefaRepositorio.ObterTodasTarefas();
+            return await _tarefaRepositorio.ListarTodas();
         }
     }
 }
