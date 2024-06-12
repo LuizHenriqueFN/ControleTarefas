@@ -47,7 +47,6 @@ namespace ControleTarefas.Negocio.Negocios
             await _tarefaRepositorio.Inserir(tarefa);
 
             _log.InfoFormat("A tarefa '{0}' foi inserida.", novaTarefa);
-            throw new Exception("erro genérico");
             return await _tarefaRepositorio.ListarTodas();
         }
 
