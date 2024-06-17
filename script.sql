@@ -14,6 +14,12 @@ CREATE TABLE tb_usuario (
 );
 
 -- Criação da tabela tb_tarefa
+CREATE TABLE tb_tpperfil (
+    id_tpperfil INT PRIMARY KEY,
+    dsc_tpperfil VARCHAR(50) NULL
+);
+
+-- Criação da tabela tb_tarefa
 CREATE TABLE tb_tarefa (
     id_tarefa INT IDENTITY(1,1) PRIMARY KEY,
     dsc_tarefa VARCHAR(50) NULL

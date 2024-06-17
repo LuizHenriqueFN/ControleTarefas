@@ -35,6 +35,13 @@ namespace ControleTarefas.Repositorio.Repositorios
             return query.ToListAsync();
         }
 
+        public Task<List<Tarefa>> ConsultarTarefas(List<int> idsTarefa)
+        {
+            var query = EntitySet.Include(e => e.UsuariosTarefa).ThenInclude(e => e.Usuario).Where(e => idsTarefa.Contains(e.Id));
+
+            return query.ToListAsync();
+        }
+
         public Task<Tarefa?> ObterTarefa(string tituloTarefa, bool asNoTracking = false)
         {
             var query = EntitySet.AsQueryable();

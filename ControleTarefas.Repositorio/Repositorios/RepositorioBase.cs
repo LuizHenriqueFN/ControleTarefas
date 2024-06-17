@@ -38,6 +38,13 @@ namespace ControleTarefas.Repositorio.Repositorios
                 await Deletar(entity);
         }
 
+        public async Task Deletar(IEnumerable<TEntidade> entidades)
+        {
+            EntitySet.RemoveRange(entidades);
+
+            await _contexto.SaveChangesAsync();
+        }
+
         public async Task<TEntidade> Inserir(TEntidade entidade)
         {
             var entityEntry = await EntitySet.AddAsync(entidade);
@@ -45,6 +52,13 @@ namespace ControleTarefas.Repositorio.Repositorios
             await _contexto.SaveChangesAsync();
 
             return entityEntry.Entity;
+        }
+
+        public async Task Inserir(IEnumerable<TEntidade> entidades)
+        {
+            await EntitySet.AddRangeAsync(entidades);
+
+            await _contexto.SaveChangesAsync();
         }
 
         public async Task<TEntidade> ObterPorId(object id)

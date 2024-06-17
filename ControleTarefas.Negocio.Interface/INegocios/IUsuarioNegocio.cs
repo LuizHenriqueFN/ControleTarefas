@@ -5,6 +5,6 @@ namespace ControleTarefas.Negocio.Interface.INegocios
 {
     public interface IUsuarioNegocio
     {
-        List<UsuarioDTO> AdicionarUsuario(CadastroUsuarioModel novoUsuario);
+        Task<List<UsuarioDTO>> AdicionarUsuario(CadastroUsuarioModel novoUsuario);
     }
 }
