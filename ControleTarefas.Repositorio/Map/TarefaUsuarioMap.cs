@@ -29,7 +29,7 @@ namespace ControleTarefas.Repositorio.Map
                    .HasForeignKey(e => e.IdUsuario);
 
             builder.HasOne(e => e.Tarefa)
-                   .WithMany(e => e.UsuariosTarefa)
+                   .WithMany(e => e.UsuarioTarefa)
                    .HasForeignKey(e => e.IdTarefa);
         }
     }

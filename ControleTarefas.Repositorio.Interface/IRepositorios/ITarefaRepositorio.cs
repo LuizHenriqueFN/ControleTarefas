@@ -9,5 +9,6 @@ namespace ControleTarefas.Repositorio.Interface.IRepositorios
         Task<List<TarefaDTO>> ListarTarefas(List<string> tarefas);
         Task<List<TarefaDTO>> ListarTodas();
         Task<Tarefa> ObterTarefa(string tituloTarefa, bool asNoTracking = false);
+        Task<List<TarefaDTO>> ConsultarTarefasPorIdUsuario(int idUsuario);
     }
 }
