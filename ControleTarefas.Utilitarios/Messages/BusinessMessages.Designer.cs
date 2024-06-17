@@ -68,7 +68,18 @@ namespace ControleTarefas.Utilitarios.Messages {
                 return ResourceManager.GetString("CampoInvalido", resourceCulture);
             }
         }
-        
+
+        /// <summary>
+        ///   Looks up a localized string similar to O campo &quot;{0}&quot; não foi encontrado..
+        /// </summary>
+        public static string CampoNaoEncontrado
+        {
+            get
+            {
+                return ResourceManager.GetString("CampoNaoEncontrado", resourceCulture);
+            }
+        }
+
         /// <summary>
         ///   Looks up a localized string similar to O campo &quot;{0}&quot; é obrigatório..
         /// </summary>

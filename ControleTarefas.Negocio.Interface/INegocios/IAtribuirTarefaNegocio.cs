@@ -7,7 +7,7 @@ namespace ControleTarefas.Negocio.Interface.Negocios
     {
         Task AtribuirTarefa(AtribuirTarefaModel tarefasUsuario);
         Task ObterUsuariosDaTarefa(int idTarefa);
-        Task ObterTarefasDoUsuario(int idUsuario);
+        Task<List<TarefaDTO>> ObterTarefasDoUsuario(int idUsuario);
         Task RemoverTarefaUsuario(int idTarefa);
     }
 }

@@ -120,6 +120,9 @@
   <data name="CampoInvalido" xml:space="preserve">
     <value>O campo "{0}" está inválido.</value>
   </data>
+  <data name="CampoNaoEncontrado" xml:space="preserve">
+    <value>O campo "{0}" não foi encontrado.</value>
+  </data>
   <data name="CampoObrigatorio" xml:space="preserve">
     <value>O campo "{0}" é obrigatório.</value>
   </data>

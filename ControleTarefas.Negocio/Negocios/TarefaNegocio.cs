@@ -37,6 +37,7 @@ namespace ControleTarefas.Negocio.Negocios
 
         public async Task<List<TarefaDTO>> InserirTarefa(CadastroTarefaModel novaTarefa)
         {
+            ValidarTarefa(novaTarefa.Titulo);
             var tarefa = await _tarefaRepositorio.ObterTarefa(novaTarefa.Titulo);
 
             if (tarefa != null)
@@ -52,6 +53,7 @@ namespace ControleTarefas.Negocio.Negocios
 
         public async Task<List<TarefaDTO>> AlterarTarefa(string nomeTarefa, string novoNomeTarefa)
         {
+            ValidarTarefa(novoNomeTarefa);
             var tarefa = await _tarefaRepositorio.ObterTarefa(nomeTarefa);
 
             if (tarefa != null)
@@ -71,6 +73,7 @@ namespace ControleTarefas.Negocio.Negocios
 
         public async Task<List<TarefaDTO>> DeletarTarefa(string nomeTarefa)
         {
+            ValidarTarefa(nomeTarefa);
             var tarefa = await _tarefaRepositorio.ObterTarefa(nomeTarefa);
 
             if (tarefa != null)
@@ -86,5 +89,12 @@ namespace ControleTarefas.Negocio.Negocios
 
             return await _tarefaRepositorio.ListarTodas();
         }
+
+        private static void ValidarTarefa(string titulo)
+        {
+            if (string.IsNullOrEmpty(titulo))
+                throw new BusinessException(string.Format(BusinessMessages.CampoObrigatorio, "Título"));
+        }
     }
+
 }
