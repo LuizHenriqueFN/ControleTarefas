@@ -17,9 +17,9 @@ namespace ControleTarefas.Controllers
         }
 
         [HttpPost("AdicionarUsuario")]
-        public ActionResult<List<UsuarioDTO>> AdicionarUsuario(CadastroUsuarioModel novoUsuario)
+        public async Task<List<UsuarioDTO>> AdicionarUsuario(CadastroUsuarioModel novoUsuario)
         {
-            return _usuarioNegocio.AdicionarUsuario(novoUsuario);
+            return await _usuarioNegocio.AdicionarUsuario(novoUsuario);
         }
 
     }

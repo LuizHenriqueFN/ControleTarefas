@@ -5,23 +5,28 @@ using ControleTarefas.Entidade.Model;
 using ControleTarefas.Negocio.Interface.INegocios;
 using ControleTarefas.Repositorio.Interface.IRepositorios;
 using ControleTarefas.Utilitarios.Excepetions;
+using ControleTarefas.Utilitarios.Messages;
+using log4net;
 
 namespace ControleTarefas.Negocio.Negocios
 {
     public class UsuarioNegocio : IUsuarioNegocio
     {
         private readonly IUsuarioRepositorio _usuarioRepositorio;
+        private static readonly ILog _log = LogManager.GetLogger(typeof(UsuarioNegocio));
         public UsuarioNegocio(IUsuarioRepositorio usuarioRepositorio)
         {
             _usuarioRepositorio = usuarioRepositorio;
         }
 
-        public List<UsuarioDTO> AdicionarUsuario(CadastroUsuarioModel novoUsuario)
+        public async Task<List<UsuarioDTO>> AdicionarUsuario(CadastroUsuarioModel novoUsuario)
         {
-            var usuario = _usuarioRepositorio.ObterUsuario(novoUsuario.Email);
-
+            var usuario = await _usuarioRepositorio.ObterUsuario(novoUsuario.Email);
             if (usuario != null)
-                throw new BusinessException($"O usuario '{novoUsuario.Nome}' já existe na base.");
+            {
+                _log.InfoFormat(BusinessMessages.RegistroExistente, usuario.Email);
+                throw new BusinessException(string.Format(BusinessMessages.RegistroExistente, usuario.Email));
+            }
 
             usuario = new Usuario
             {
@@ -31,9 +36,9 @@ namespace ControleTarefas.Negocio.Negocios
                 Perfil = novoUsuario.Perfil
             };
 
-            _usuarioRepositorio.AdicionarUsuario(usuario);
+            await _usuarioRepositorio.Inserir(usuario);
 
-            return _usuarioRepositorio.ObterTodosUsuarios();
+            return await _usuarioRepositorio.ListarTodos();
         }
     }
 }

@@ -1,6 +1,6 @@
 ﻿
 using ControleTarefas.Repositorio.Interface;
-using ControleTarefas.Utilitarios;
+using ControleTarefas.Utilitarios.Attributes;
 using ControleTarefas.Utilitarios.Excepetions;
 using ControleTarefas.Utilitarios.Messages;
 using ControleTarefas.WebApi.Responses;
